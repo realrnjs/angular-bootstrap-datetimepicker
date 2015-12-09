@@ -65,6 +65,7 @@
         var validOptions = [
           'configureOn',
           'dropdownSelector',
+          'hourStep',
           'minuteStep',
           'minView',
           'renderOn',
@@ -91,6 +92,13 @@
 
         if (validViews.indexOf(configuration.minView) > validViews.indexOf(configuration.startView)) {
           throw ('startView must be greater than minView');
+        }
+
+        if (!angular.isNumber(configuration.hourStep)) {
+          throw ('minuteStep must be numeric');
+        }
+        if (configuration.hourStep <= 0 || configuration.hourStep >= 12) {
+          throw ('minuteStep must be greater than zero and less than 12');
         }
 
         if (!angular.isNumber(configuration.minuteStep)) {
@@ -327,8 +335,10 @@
                 'dates': []
               };
 
-              for (var i = 0; i < 24; i += 1) {
-                var hourMoment = moment.utc(selectedDate).add(i, 'hours');
+              var limit = 24 / configuration.hourStep;
+
+              for (var i = 0; i < limit; i += 1) {
+                var hourMoment = moment.utc(selectedDate).add(i * configuration.hourStep, 'hours');
                 var dateValue = {
                   'utcDateValue': hourMoment.valueOf(),
                   'display': hourMoment.format('LT'),
