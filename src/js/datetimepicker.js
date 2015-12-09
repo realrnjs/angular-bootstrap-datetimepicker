@@ -30,6 +30,7 @@
     .constant('dateTimePickerConfig', {
       configureOn: null,
       dropdownSelector: null,
+      hourStep: 1,
       minuteStep: 5,
       minView: 'minute',
       renderOn: null,
@@ -95,10 +96,10 @@
         }
 
         if (!angular.isNumber(configuration.hourStep)) {
-          throw ('minuteStep must be numeric');
+          throw ('hourStep must be numeric');
         }
         if (configuration.hourStep <= 0 || configuration.hourStep >= 12) {
-          throw ('minuteStep must be greater than zero and less than 12');
+          throw ('hourStep must be greater than zero and less than 12');
         }
 
         if (!angular.isNumber(configuration.minuteStep)) {
